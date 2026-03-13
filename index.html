@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hallazgos TJ — Ofertas escondidas en Tijuana</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --surface-hover: #1a1a1a;
+      --border: #222;
+      --border-light: #2a2a2a;
+      --text: #f0f0f0;
+      --text-muted: #888;
+      --text-dim: #555;
+      --accent: #E8FF47;
+      --accent-dark: #c4d93c;
+      --whatsapp: #25D366;
+      --whatsapp-dark: #1da851;
+      --tag-bg: #1a1a1a;
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .header-tag {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px 40px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 .highlight {
+      color: var(--accent);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto 32px;
+      line-height: 1.5;
+    }
+
+    /* ── FILTERS ── */
+    .filters {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--text-dim);
+      color: var(--text);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #0a0a0a;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── GRID ── */
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      background: var(--surface-hover);
+    }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      background: rgba(232, 255, 71, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .card-price {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .card-location {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-location::before {
+      content: "📍";
+      font-size: 0.75rem;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-date {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--whatsapp);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-whatsapp:hover {
+      background: var(--whatsapp-dark);
+    }
+
+    .btn-whatsapp svg {
+      width: 16px;
+      height: 16px;
+      fill: #fff;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-dim);
+    }
+
+    .empty-state p {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .empty-state span {
+      font-size: 0.9rem;
+    }
+
+    /* ── FLOATING ADMIN BTN ── */
+    .admin-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #0a0a0a;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(232, 255, 71, 0.3);
+      transition: transform 0.2s;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-toggle:hover {
+      transform: scale(1.08);
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (min-width: 600px) {
+      .modal-overlay { align-items: center; }
+      .modal { border-radius: var(--radius-lg); }
+    }
+
+    .modal h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-group input[type="file"] {
+      padding: 8px;
+    }
+
+    .img-preview {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-top: 8px;
+      display: none;
+      border: 1px solid var(--border);
+    }
+
+    .btn-publish {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #0a0a0a;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-publish:hover {
+      background: var(--accent-dark);
+    }
+
+    /* ── DETAIL MODAL ── */
+    .detail-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 250;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .detail-overlay.open {
+      display: flex;
+    }
+
+    .detail-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s ease;
+    }
+
+    .detail-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-body {
+      padding: 20px;
+    }
+
+    .detail-body .card-tag { margin-bottom: 10px; display: inline-block; }
+    .detail-body .card-title { font-size: 1.2rem; margin-bottom: 6px; }
+    .detail-body .card-location { margin-bottom: 12px; }
+    .detail-body .card-desc { margin-bottom: 16px; }
+
+    .detail-price {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .detail-cta {
+      display: flex;
+      gap: 10px;
+    }
+
+    .detail-cta .btn-whatsapp {
+      flex: 1;
+      justify-content: center;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: var(--radius);
+    }
+
+    .detail-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding: 40px 20px 24px; }
+      .hero h1 { font-size: 1.8rem; }
+    }
+
+    /* ── DELETE BTN ── */
+    .card-delete {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: #ff4444;
+      font-size: 1rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .admin-mode .card-delete {
+      display: flex;
+    }
+
+    .card-img-wrap {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo">HALLAZGOS<span>TJ</span></a>
+      <div class="header-tag">Tijuana</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Ofertas <span class="highlight">escondidas</span> en negocios de Tijuana</h1>
+    <p>Cosas buenas que nadie sabe que existen. Las encuentro, las publico, tú las compras.</p>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-cat="todos">Todos</button>
+    <button class="filter-btn" data-cat="ropa">Ropa</button>
+    <button class="filter-btn" data-cat="calzado">Calzado</button>
+    <button class="filter-btn" data-cat="comida">Comida</button>
+    <button class="filter-btn" data-cat="electronica">Electrónica</button>
+    <button class="filter-btn" data-cat="hogar">Hogar</button>
+    <button class="filter-btn" data-cat="vehiculos">Vehículos</button>
+    <button class="filter-btn" data-cat="otro">Otro</button>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid" id="grid"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    Hallazgos TJ — Ofertas reales de negocios reales en Tijuana.
+  </footer>
+
+  <!-- ADMIN FLOAT BTN -->
+  <button class="admin-toggle" id="adminToggle" title="Publicar hallazgo" style="display:none;">+</button>
+
+  <!-- PUBLISH MODAL -->
+  <div class="modal-overlay" id="publishModal">
+    <div class="modal">
+      <h2>Nuevo hallazgo <button class="modal-close" id="modalClose">&times;</button></h2>
+      <div class="form-group">
+        <label>Foto del producto</label>
+        <input type="file" id="inputPhoto" accept="image/*">
+        <img class="img-preview" id="imgPreview" alt="Preview">
+      </div>
+      <div class="form-group">
+        <label>Título</label>
+        <input type="text" id="inputTitle" placeholder="Ej: Tenis Nike Air Max — liquidación">
+      </div>
+      <div class="form-group">
+        <label>Categoría</label>
+        <select id="inputCategory">
+          <option value="ropa">Ropa</option>
+          <option value="calzado">Calzado</option>
+          <option value="comida">Comida</option>
+          <option value="electronica">Electrónica</option>
+          <option value="hogar">Hogar</option>
+          <option value="vehiculos">Vehículos</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Precio</label>
+        <input type="text" id="inputPrice" placeholder="Ej: $450">
+      </div>
+      <div class="form-group">
+        <label>Negocio / Ubicación</label>
+        <input type="text" id="inputLocation" placeholder="Ej: Plaza Río, local 24">
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea id="inputDesc" placeholder="¿Qué encontraste? ¿Por qué es buen deal?"></textarea>
+      </div>
+      <button class="btn-publish" id="btnPublish">Publicar hallazgo</button>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="detail-overlay" id="detailOverlay">
+    <div class="detail-modal" id="detailModal" style="position:relative;"></div>
+  </div>
+
+  <script>
+    // ── CONFIG ──
+    const WHATSAPP_NUMBER = '526631261241';
+    const STORAGE_KEY = 'hallazgos_tj_items';
+    const IS_ADMIN = new URLSearchParams(window.location.search).has('admin');
+
+    // ── STATE ──
+    let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    let currentFilter = 'todos';
+    let adminMode = false;
+
+    // ── ELEMENTS ──
+    const grid = document.getElementById('grid');
+    const adminToggle = document.getElementById('adminToggle');
+    const publishModal = document.getElementById('publishModal');
+    const modalClose = document.getElementById('modalClose');
+    const btnPublish = document.getElementById('btnPublish');
+    const inputPhoto = document.getElementById('inputPhoto');
+    const imgPreview = document.getElementById('imgPreview');
+    const detailOverlay = document.getElementById('detailOverlay');
+    const detailModal = document.getElementById('detailModal');
+
+    // ── RENDER ──
+    function render() {
+      const filtered = currentFilter === 'todos'
+        ? items
+        : items.filter(i => i.category === currentFilter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <p>No hay hallazgos todavía</p>
+            <span>Pronto aparecerán ofertas increíbles aquí</span>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((item, idx) => `
+        <div class="card" data-idx="${items.indexOf(item)}" onclick="openDetail(${items.indexOf(item)})">
+          <div class="card-img-wrap">
+            <img class="card-img" src="${item.photo}" alt="${item.title}" loading="lazy">
+            <button class="card-delete" onclick="event.stopPropagation(); deleteItem(${items.indexOf(item)})">&times;</button>
+          </div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="card-tag">${item.category}</span>
+              <span class="card-price">${item.price}</span>
+            </div>
+            <div class="card-title">${item.title}</div>
+            <div class="card-location">${item.location}</div>
+            <div class="card-desc">${item.desc.length > 100 ? item.desc.slice(0, 100) + '...' : item.desc}</div>
+            <div class="card-footer">
+              <span class="card-date">${item.date}</span>
+              <a class="btn-whatsapp" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa: ' + item.title + ' — ' + item.price)}" target="_blank" onclick="event.stopPropagation();">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.935 1.395 5.608L.096 23.335a.5.5 0 00.606.607l5.727-1.3A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.82 0-3.543-.478-5.036-1.336l-.352-.21-3.644.827.842-3.645-.229-.364A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                Me interesa
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ── DETAIL ──
+    function openDetail(idx) {
+      const item = items[idx];
+      if (!item) return;
+      detailModal.innerHTML = `
+        <button class="detail-close" onclick="closeDetail()">&times;</button>
+        <img class="detail-img" src="${item.photo}" alt="${item.title}">
+        <div class="detail-body">
+          <span class="card-tag">${item.category}</span>
+          <div class="card-title">${item.title}</div>
+          <div class="card-location">${item.location}</div>
+          <div class="detail-price">${item.price}</div>
+          <div class="card-desc">${item.desc}</div>
+          <div class="card-date" style="margin-bottom:16px;">Publicado: ${item.date}</div>
+          <div class="detail-cta">
+            <a class="btn-whatsapp" href="https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, me interesa: ' + item.title + ' — ' + item.price)}" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.506 3.935 1.395 5.608L.096 23.335a.5.5 0 00.606.607l5.727-1.3A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.82 0-3.543-.478-5.036-1.336l-.352-.21-3.644.827.842-3.645-.229-.364A9.935 9.935 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+              Lo quiero — WhatsApp
+            </a>
+          </div>
+        </div>
+      `;
+      detailOverlay.classList.add('open');
+    }
+
+    function closeDetail() {
+      detailOverlay.classList.remove('open');
+    }
+
+    detailOverlay.addEventListener('click', (e) => {
+      if (e.target === detailOverlay) closeDetail();
+    });
+
+    // ── DELETE ──
+    function deleteItem(idx) {
+      if (confirm('¿Eliminar este hallazgo?')) {
+        items.splice(idx, 1);
+        save();
+        render();
+      }
+    }
+
+    // ── FILTERS ──
+    document.getElementById('filters').addEventListener('click', (e) => {
+      if (!e.target.classList.contains('filter-btn')) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      currentFilter = e.target.dataset.cat;
+      render();
+    });
+
+    // ── ADMIN TOGGLE (long press = admin mode) ──
+    let pressTimer;
+    adminToggle.addEventListener('click', () => {
+      publishModal.classList.add('open');
+    });
+
+    adminToggle.addEventListener('mousedown', () => {
+      pressTimer = setTimeout(() => {
+        adminMode = !adminMode;
+        document.body.classList.toggle('admin-mode', adminMode);
+        adminToggle.style.background = adminMode ? '#ff4444' : 'var(--accent)';
+        adminToggle.textContent = adminMode ? '🗑' : '+';
+      }, 1000);
+    });
+
+    adminToggle.addEventListener('mouseup', () => clearTimeout(pressTimer));
+    adminToggle.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+
+    // ── MODAL ──
+    modalClose.addEventListener('click', () => publishModal.classList.remove('open'));
+    publishModal.addEventListener('click', (e) => {
+      if (e.target === publishModal) publishModal.classList.remove('open');
+    });
+
+    // ── PHOTO PREVIEW ──
+    inputPhoto.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imgPreview.src = ev.target.result;
+        imgPreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ── PUBLISH ──
+    btnPublish.addEventListener('click', () => {
+      const title = document.getElementById('inputTitle').value.trim();
+      const category = document.getElementById('inputCategory').value;
+      const price = document.getElementById('inputPrice').value.trim();
+      const location = document.getElementById('inputLocation').value.trim();
+      const desc = document.getElementById('inputDesc').value.trim();
+      const photo = imgPreview.src;
+
+      if (!title || !price || !photo || !imgPreview.style.display || imgPreview.style.display === 'none') {
+        alert('Agrega al menos foto, título y precio.');
+        return;
+      }
+
+      const now = new Date();
+      const date = now.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      items.unshift({ title, category, price, location, desc, photo, date });
+      save();
+      render();
+
+      // Reset form
+      document.getElementById('inputTitle').value = '';
+      document.getElementById('inputPrice').value = '';
+      document.getElementById('inputLocation').value = '';
+      document.getElementById('inputDesc').value = '';
+      imgPreview.style.display = 'none';
+      imgPreview.src = '';
+      inputPhoto.value = '';
+
+      publishModal.classList.remove('open');
+    });
+
+    // ── STORAGE ──
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    // ── INIT ──
+    if (IS_ADMIN) {
+      adminToggle.style.display = 'flex';
+    }
+    render();
+
+    // ── SEED DEMO DATA (only if empty) ──
+    if (items.length === 0) {
+      // Add some placeholder items so it doesn't look empty
+      items = [
+        {
+          title: "Tenis Nike Air Max 90 — Liquidación",
+          category: "calzado",
+          price: "$899",
+          location: "Plaza Río, local 42",
+          desc: "Encontré 4 pares en liquidación. Precio original $2,200. Solo tallas 26 y 27. Están en caja, nuevos.",
+          photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23141414' width='400' height='300'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23333' font-family='sans-serif' font-size='16'%3EFoto del producto%3C/text%3E%3C/svg%3E",
+          date: "13 mar 2026"
+        },
+        {
+          title: "Silla de oficina ergonómica",
+          category: "hogar",
+          price: "$1,450",
+          location: "Mueblería en Otay, por la garita",
+          desc: "Tienen 6 en bodega, modelos de exhibición al 50%. Muy buena calidad, solo necesitan limpieza.",
+          photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23141414' width='400' height='300'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23333' font-family='sans-serif' font-size='16'%3EFoto del producto%3C/text%3E%3C/svg%3E",
+          date: "12 mar 2026"
+        },
+        {
+          title: "Playera oversized básica — paca",
+          category: "ropa",
+          price: "$85",
+          location: "Segunda sobre Constitución",
+          desc: "Puro algodón grueso, colores neutros. Encontré como 20 en buen estado. En tienda estarían a $350+.",
+          photo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23141414' width='400' height='300'/%3E%3Ctext x='200' y='150' text-anchor='middle' fill='%23333' font-family='sans-serif' font-size='16'%3EFoto del producto%3C/text%3E%3C/svg%3E",
+          date: "11 mar 2026"
+        }
+      ];
+      save();
+      render();
+    }
+  </script>
+
+</body>
+</html>
